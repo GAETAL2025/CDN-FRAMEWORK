@@ -7,7 +7,6 @@
 
 # TUI - Text User Interface (Terminal)
 rich>=13.0.0          # Rich text and formatting in terminal
-textual>=0.11.0       # Full TUI framework (optional, per tui.py avanzato)
 
 # Optional - Development
 # pytest>=7.0

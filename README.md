@@ -55,11 +55,10 @@ python3 tui_simple.py
 
 ## 📖 Utilizzo
 
-### 🖥️ Interfaccia TUI (Terminal UI - CONSIGLIATO)
+### � TUI (Terminal UI - CONSIGLIATO)
 
 Interfaccia interattiva professionale direttamente nel terminale, tipo Metasploit.
 
-#### Versione 1: TUI Semplice (Menu-Based) - ⭐ CONSIGLIATO
 ```bash
 python3 tui_simple.py
 ```
@@ -78,17 +77,6 @@ python3 tui_simple.py
 - `3` - Settings
 - `4` - Help
 - `5` - Exit
-
-#### Versione 2: TUI Avanzato (Full Interactive)
-```bash
-python3 tui.py
-```
-
-**Features avanzate**:
-- 🎮 Widgets interattivi
-- 📐 Layout customizzato
-- ⌨️ Keybindings
-- 🎨 Styling avanzato
 
 ### 💻 Interfaccia CLI (Linea di Comando)
 
