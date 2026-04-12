@@ -1,11 +1,11 @@
 # 🔧 CDN-FRAMEWORK
 
-**CDN-FRAMEWORK** è uno strumento modulare per network reconnaissance con interfaccia **CLI moderna** e **GUI professionale**. Esegue tool come Nmap e organizza i risultati in modo strutturato.
+**CDN-FRAMEWORK** è uno strumento modulare per network reconnaissance con interfaccia **CLI** e **TUI (Text User Interface)** professionale nel terminale, tipo Metasploit. Esegue tool come Nmap e organizza i risultati in modo strutturato.
 
 ## 🎯 Caratteristiche Principali
 
 - ✅ **CLI moderna** - Comandi semplici e intuitivi
-- ✅ **GUI Tkinter** - Interfaccia dark theme professionale
+- ✅ **TUI nel Terminale** - Interfaccia interattiva tipo Metasploit (NEW!)
 - ✅ **Modulo Nmap integrato** - Scan real-time
 - ✅ **Executor universale** - Per qualsiasi comando shell
 - ✅ **Logging completo** - Debug e monitoring
@@ -31,45 +31,64 @@
 
 ### Requisiti
 - Python 3.8+
-- Nmap (facoltativo, per il modulo scan)
+- Nmap (per il modulo scan)
+- rich (per TUI)
 
 ### Setup
 ```bash
 cd /home/ghost/Scrivania/CDN-FRAMEWORK
 
-# Installa Nmap (opzionale)
+# Installa Nmap
 sudo apt install nmap
+
+# Installa dipendenze Python
+pip install -r requirements.txt
+# oppure
+pip install rich textual
 
 # Test di verifica
 python3 test.py
 
-# Avvia quick start
-bash QUICKSTART.sh
+# Avvia TUI
+python3 tui_simple.py
 ```
 
 ## 📖 Utilizzo
 
-### 🖥️ Interfaccia Grafica (GUI - CONSIGLIATO)
+### 🖥️ Interfaccia TUI (Terminal UI - CONSIGLIATO)
 
-Interfaccia moderna con dark theme, real-time output e logging completo.
+Interfaccia interattiva professionale direttamente nel terminale, tipo Metasploit.
 
+#### Versione 1: TUI Semplice (Menu-Based) - ⭐ CONSIGLIATO
 ```bash
-python3 gui.py
+python3 tui_simple.py
 ```
 
-**Caratteristiche GUI**:
-- ✨ Dark theme professionale
-- 🎨 Tabs organizzate (Output, Log, Help)
-- 📊 Progress bar in tempo reale
-- 🔍 Parametri personalizzabili
-- 📝 Console log integrata
-- 🎯 Pulsanti intuitivi
+**Features**:
+- 📋 Menu interattivo
+- 🎨 Colori e formatting con rich
+- 🔍 Prompt intuitivi
+- 📊 Output formattato
+- ⚙️  Settings
+- 📝 Help integrato
 
-**Parametri disponibili**:
-- **Target**: IP, hostname, o CIDR
-- **Porte**: Singole (22) o range (1-1000)
-- **Tipo Scan**: SYN, Connect, Ping
-- **Opzioni**: Verbose, XML output
+**Menu disponibili**:
+- `1` - Start Scan
+- `2` - View Last Output
+- `3` - Settings
+- `4` - Help
+- `5` - Exit
+
+#### Versione 2: TUI Avanzato (Full Interactive)
+```bash
+python3 tui.py
+```
+
+**Features avanzate**:
+- 🎮 Widgets interattivi
+- 📐 Layout customizzato
+- ⌨️ Keybindings
+- 🎨 Styling avanzato
 
 ### 💻 Interfaccia CLI (Linea di Comando)
 
@@ -103,7 +122,8 @@ python3 main.py scan 192.168.1.1 -type syn -ports 1-65535 -verbose
 ```
 CDN-FRAMEWORK/
 ├── main.py                      # CLI Entry point
-├── gui.py                       # GUI Tkinter (NEW!)
+├── tui_simple.py                # TUI Menu-based (CONSIGLIATO!) ⭐
+├── tui.py                       # TUI Full interactive
 ├── test.py                      # Suite di test (6 test)
 ├── PUSH.sh                      # Script push GitHub
 ├── QUICKSTART.sh                # Quick start guide

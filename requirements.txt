@@ -1,8 +1,15 @@
 # CDN-FRAMEWORK - Requirements
-# No external dependencies required for core functionality
-# Python built-in modules only: subprocess, logging, tkinter
 
-# Optional for development:
+# Core
+# - subprocess (built-in)
+# - logging (built-in)
+# - threading (built-in)
+
+# TUI - Text User Interface (Terminal)
+rich>=13.0.0          # Rich text and formatting in terminal
+textual>=0.11.0       # Full TUI framework (optional, per tui.py avanzato)
+
+# Optional - Development
 # pytest>=7.0
 # black>=22.0
 # flake8>=4.0
