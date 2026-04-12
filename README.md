@@ -1,13 +1,23 @@
 # 🔧 CDN-FRAMEWORK
 
-**CDN-FRAMEWORK** è uno strumento modulare per network reconnaissance. Esegue tool come Nmap e organizza i risultati in modo strutturato.
+**CDN-FRAMEWORK** è uno strumento modulare per network reconnaissance con interfaccia **CLI moderna** e **GUI professionale**. Esegue tool come Nmap e organizza i risultati in modo strutturato.
 
-## 📋 Roadmap (Milestone Completate)
+## 🎯 Caratteristiche Principali
+
+- ✅ **CLI moderna** - Comandi semplici e intuitivi
+- ✅ **GUI Tkinter** - Interfaccia dark theme professionale
+- ✅ **Modulo Nmap integrato** - Scan real-time
+- ✅ **Executor universale** - Per qualsiasi comando shell
+- ✅ **Logging completo** - Debug e monitoring
+- ✅ **Architettura modulare** - Facile aggiungere nuovi tool
+
+## 📋 Milestone Completata (Fase 1-4)
 
 - ✅ **FASE 1**: Entry point + input da terminale
-- ✅ **FASE 2**: Command system (CLI) - scan, wifi, help
+- ✅ **FASE 2**: Command system (CLI) - scan, wifi, help  
 - ✅ **FASE 3**: Executor - esecuzione comandi shell
 - ✅ **FASE 4**: Modulo Nmap reale + output grezzo
+- ✅ **BONUS**: GUI Tkinter dark theme
 
 ### In sviluppo (Prossime fasi):
 - 📋 **FASE 5**: Parsing XML
@@ -32,45 +42,77 @@ sudo apt install nmap
 
 # Test di verifica
 python3 test.py
+
+# Avvia quick start
+bash QUICKSTART.sh
 ```
 
 ## 📖 Utilizzo
 
-### Comando di aiuto
+### 🖥️ Interfaccia Grafica (GUI - CONSIGLIATO)
+
+Interfaccia moderna con dark theme, real-time output e logging completo.
+
 ```bash
-python3 main.py help
+python3 gui.py
 ```
 
-### Scan Nmap
+**Caratteristiche GUI**:
+- ✨ Dark theme professionale
+- 🎨 Tabs organizzate (Output, Log, Help)
+- 📊 Progress bar in tempo reale
+- 🔍 Parametri personalizzabili
+- 📝 Console log integrata
+- 🎯 Pulsanti intuitivi
+
+**Parametri disponibili**:
+- **Target**: IP, hostname, o CIDR
+- **Porte**: Singole (22) o range (1-1000)
+- **Tipo Scan**: SYN, Connect, Ping
+- **Opzioni**: Verbose, XML output
+
+### 💻 Interfaccia CLI (Linea di Comando)
+
+Per chi preferisce il terminale:
+
 ```bash
+# Aiuto
+python3 main.py help
+
+# Versione
+python3 main.py version
+
 # Scan base
 python3 main.py scan 192.168.1.1
 
 # Scan con porte specifiche
 python3 main.py scan 192.168.1.1 -ports 22,80,443
 
-# Scan SYN (più accurato)
+# Scan SYN (veloce, richiede sudo)
 python3 main.py scan 192.168.1.1 -type syn
 
 # Scan con verbose
 python3 main.py scan 192.168.1.1 -verbose
 
-# Scan completo con output XML
+# Scan completo
 python3 main.py scan 192.168.1.1 -type syn -ports 1-65535 -verbose
-```
-
-### Versione
-```bash
-python3 main.py version
 ```
 
 ## 🏗️ Struttura del Progetto
 
 ```
 CDN-FRAMEWORK/
-├── main.py                      # Entry point principale
-├── test.py                      # Suite di test
-├── README.md                    # Questo file
+├── main.py                      # CLI Entry point
+├── gui.py                       # GUI Tkinter (NEW!)
+├── test.py                      # Suite di test (6 test)
+├── PUSH.sh                      # Script push GitHub
+├── QUICKSTART.sh                # Quick start guide
+├── README.md                    # Documentazione
+├── MILESTONE.md                 # Report milestone
+├── CONTRIBUTING.md              # Linee guida dev
+├── requirements.txt             # Dipendenze
+├── .gitignore                   # Git ignore
+├── .gitattributes               # Git attributes
 └── src/
     ├── __init__.py
     ├── cli/
@@ -146,7 +188,59 @@ python3 main.py scan 192.168.1.1 -type syn -ports 1-1000 -verbose
 python3 main.py scan 192.168.1.0/24 -type ping
 ```
 
-## 🔧 Sviluppo Locale
+## 🐙 GitHub - Push Repository
+
+Repository è stato inizializzato localmente e pronto per il push.
+
+**Remote configurato**:
+```
+https://github.com/GAETAL2025/CDN-FRAMEWORK.git
+```
+
+**Per fare il push**:
+
+Esegui uno di questi comandi (dipende dal tuo metodo di autenticazione):
+
+### Opzione 1: SSH (Consigliato)
+```bash
+# Genera chiave SSH (se non l'hai già)
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# Aggiungi public key su GitHub
+# https://github.com/settings/keys
+
+# Cambia remote a SSH
+git remote set-url origin git@github.com:GAETAL2025/CDN-FRAMEWORK.git
+
+# Push
+git push -u origin master
+```
+
+### Opzione 2: HTTPS + Token
+```bash
+# Genera Personal Access Token
+# https://github.com/settings/tokens
+
+# Push (chiederà username e token)
+git push -u origin master
+
+# Username: GAETAL2025
+# Password: <tuo-token>
+```
+
+### Opzione 3: Credenziali memorizzate
+```bash
+# Configura git per memorizzare credenziali
+git config --global credential.helper store
+
+# Prima push chiederà credenziali (saranno salvate)
+git push -u origin master
+```
+
+**Script automatico**:
+```bash
+bash PUSH.sh
+```
 
 Per aggiungere un nuovo modulo:
 
