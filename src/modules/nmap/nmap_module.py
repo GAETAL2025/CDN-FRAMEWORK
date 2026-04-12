@@ -3,7 +3,7 @@ Modulo Nmap: Integrazione con Nmap per scanning della rete
 """
 
 import logging
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 import sys
 from pathlib import Path
 
@@ -17,11 +17,27 @@ logger = logging.getLogger(__name__)
 
 class NmapModule:
     """Modulo dedicato a Nmap"""
-    
+
+    SCAN_MODES = {
+        "syn": "-sS",
+        "connect": "-sT",
+        "ping": "-sn",
+        "udp": "-sU",
+        "fin": "-sF",
+        "null": "-sN",
+        "xmas": "-sX",
+        "version": "-sV",
+        "os": "-O",
+        "stealth": "-sS",
+        "aggressive": "-A",
+        "quick": "-T4 -F",
+        "intense": "-T4 -A -v"
+    }
+
     def __init__(self, executor: CommandExecutor):
         self.executor = executor
         self.tool_name = "nmap"
-    
+
     def check_available(self) -> bool:
         """Verifica se Nmap è installato"""
         if self.executor.check_command_exists(self.tool_name):
@@ -30,20 +46,10 @@ class NmapModule:
         else:
             logger.error("Nmap non trovato! Installa con: sudo apt install nmap")
             return False
-    
+
     def scan(self, target: str, params: Dict[str, Any]) -> Dict[str, Any]:
         """
         Esegue uno scan con Nmap
-        
-        Args:
-            target: Indirizzo IP o hostname da scannare
-            params: Dizionario con parametri aggiuntivi
-                - ports: range di porte (es: '22,80,443' o '1-65535')
-                - type: tipo di scan ('syn', 'connect', 'ping')
-                - output_format: 'text' o 'xml'
-        
-        Returns:
-            Dizionario con risultati
         """
         if not self.check_available():
             return {
@@ -51,73 +57,74 @@ class NmapModule:
                 "error": "Nmap non disponibile",
                 "output": ""
             }
-        
-        # Costruisci comando Nmap
+
         command = self._build_command(target, params)
-        
+
         logger.info(f"Esecuzione scan Nmap su {target}")
         logger.info(f"Comando: {command}")
-        
-        # Esegui comando
+
         stdout, stderr, return_code = self.executor.execute(command)
-        
         success = return_code == 0
-        
-        result = {
+
+        return {
             "success": success,
             "target": target,
             "command": command,
-            "output": stdout,
-            "error": stderr if not success else "",
+            "output": stdout.strip(),
+            "error": stderr.strip() if not success else "",
             "return_code": return_code
         }
-        
-        if not success:
-            logger.error(f"Scan fallito: {stderr}")
-        else:
-            logger.info(f"Scan completato con successo")
-        
-        return result
-    
+
     def _build_command(self, target: str, params: Dict[str, Any]) -> str:
         """Costruisce il comando Nmap con i parametri forniti"""
         cmd = [self.tool_name]
-        
-        # Tipo di scan
-        scan_type = params.get('type', 'syn').lower()
-        if scan_type == 'syn':
-            cmd.append('-sS')  # SYN scan
-        elif scan_type == 'connect':
-            cmd.append('-sT')  # Connect scan
-        elif scan_type == 'ping':
-            cmd.append('-sn')  # Ping scan
+
+        scan_type = params.get("type", "syn").lower()
+        if scan_type in self.SCAN_MODES:
+            cmd.append(self.SCAN_MODES[scan_type])
         else:
-            cmd.append('-sS')  # Default: SYN
-        
-        # Range porte
-        if 'ports' in params:
-            cmd.append(f"-p {params['ports']}")
-        
-        # Formato output
-        output_format = params.get('output_format', 'text').lower()
-        if output_format == 'xml':
-            # Genera file XML (lo salviamo come output)
-            cmd.append('-oX -')  # Output XML a stdout
-        
-        # Verbose
-        if params.get('verbose', False):
-            cmd.append('-v')
-        
-        # Target
+            # Permetti opzioni raw se l'utente inserisce stringhe personalizzate
+            cmd.append(scan_type)
+
+        if ports := params.get("ports"):
+            cmd.append(f"-p {ports}")
+
+        output_format = params.get("output_format", "text").lower()
+        if output_format == "xml":
+            cmd.append("-oX -")
+
+        if params.get("verbose", False):
+            cmd.append("-v")
+
+        if extra := params.get("extra"):
+            cmd.append(extra)
+
         cmd.append(target)
-        
-        return ' '.join(cmd)
-    
+        return " ".join(cmd)
+
+    def get_scan_modes(self) -> Dict[str, str]:
+        """Restituisce le tipologie di scan supportate."""
+        return {
+            "syn": "SYN Scan - stealth, richiede root",
+            "connect": "Connect Scan - standard TCP",
+            "ping": "Ping Scan - host discovery",
+            "udp": "UDP Scan - verifica porte UDP",
+            "fin": "FIN Scan - stealth su TCP",
+            "null": "NULL Scan - stealth su TCP",
+            "xmas": "XMAS Scan - stealth su TCP",
+            "version": "Version Detection - -sV",
+            "os": "OS Detection - -O",
+            "stealth": "Stealth Scan - alias SYN",
+            "aggressive": "Aggressive Scan - -A completo",
+            "quick": "Quick Scan - -T4 -F veloce",
+            "intense": "Intense Scan - -T4 -A -v dettagliato"
+        }
+
     def get_info(self) -> Dict[str, str]:
         """Restituisce info sul modulo"""
         return {
             "name": "Nmap Module",
             "description": "Integrazione con Nmap per network scanning",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "dependencies": ["nmap"]
         }

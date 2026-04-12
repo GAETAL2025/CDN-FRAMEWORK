@@ -1,7 +1,7 @@
 # 📊 CDN-FRAMEWORK - Milestone Report
 
-**Data**: 12 Aprile 2026  
-**Versione**: 1.0.0
+**Data**: 13 Aprile 2026  
+**Versione**: 1.1.0
 
 ## ✅ Milestone 1 Completata
 
@@ -16,7 +16,7 @@
 ### FASE 2: Command System (CLI) ✅
 **Stato**: Completato
 - ✅ Parser CLI centralizzato
-- ✅ Comandi: `scan`, `wifi`, `help`, `version`
+- ✅ Comandi: `scan`, `wifi`, `airmon`, `airodump`, `aireplay`, `aircrack`, `help`, `version`
 - ✅ Validazione input
 
 ---
@@ -34,19 +34,21 @@
 **Stato**: Completato
 - ✅ Integrazione Nmap vera
 - ✅ Costruzione comando dinamica
-- ✅ Supporto tipi di scan (SYN, Connect, Ping)
+- ✅ Supporto tipi di scan estesi (SYN, Connect, Ping, UDP, FIN, NULL, XMAS, Version, OS, Aggressive, Quick, Intense)
 - ✅ Output grezzo testuale
 
 ---
 
 ### BONUS: TUI Terminale (Text User Interface) ✨ NEW!
 **Stato**: Completato
-- ✅ TUI semplice (`tui_simple.py`) - Menu-based tipo Metasploit
+- ✅ TUI semplice (`tui_simple.py`) - Menu-based rosso/nero tipo Metasploit
 - ✅ TUI avanzato (`tui.py`) - Full interactive con textual
 - ✅ Interfaccia terminale solo (no GUI esterna)
 - ✅ Colori e formatting con rich
 - ✅ Menu intuitivi
 - ✅ Real-time logging
+- ✅ Auto-update Git all'avvio
+- ✅ Gestione WiFi e Aircrack integrata
 
 ## 🧪 Test Suite
 
@@ -71,17 +73,17 @@ python3 test.py
 ### 📺 TUI (Terminal UI) - CONSIGLIATO
 ```bash
 # Versione semplice - Menu interattivo (CONSIGLIATO!)
-python3 tui_simple.py
+sudo python3 tui_simple.py
 
 # Versione avanzata - Full interactive widgets
-python3 tui.py
+sudo python3 tui.py
 ```
 
 ### 💻 CLI - Command Line
 ```bash
-python3 main.py scan 192.168.1.1 -ports 22,80,443
-python3 main.py help
-python3 main.py version
+sudo python3 main.py scan 192.168.1.1 -ports 22,80,443
+sudo python3 main.py help
+sudo python3 main.py version
 ```
 
 ### 🧪 Test

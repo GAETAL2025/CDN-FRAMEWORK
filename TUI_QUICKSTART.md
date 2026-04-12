@@ -1,4 +1,4 @@
-# 🎉 CDN-FRAMEWORK v1.0.0 - TIMELINE COMPLETE!
+# 🎉 CDN-FRAMEWORK v1.1.0 - TIMELINE COMPLETE!
 
 ## 📺 Interfaccia TUI (Terminal UI) - Solo Terminale
 
@@ -8,20 +8,20 @@ Esattamente quello che hai chiesto! Una **TUI professionale tipo Metasploit** fa
 
 **Opzione 1: TUI Semplice (CONSIGLIATO - Menu-based)**
 ```bash
-python3 tui_simple.py
+sudo python3 tui_simple.py
 ```
-Menu interattivo, prompt intuitivi, output formattato - tipo Metasploit!
+Menu interattivo rosso/nero, prompt intuitivi, output formattato e comandi WiFi/Aircrack.
 
 **Opzione 2: TUI Avanzato (Full Interactive)**
 ```bash
-python3 tui.py
+sudo python3 tui.py
 ```
 Widgets avanzati, layout customizzato - per utenti esperti.
 
 **Opzione 3: CLI (Command Line)**
 ```bash
-python3 main.py scan 192.168.1.1 -ports 22,80,443
-python3 main.py help
+sudo python3 main.py scan 192.168.1.1 -ports 22,80,443
+sudo python3 main.py help
 ```
 
 ---
@@ -53,10 +53,16 @@ python3 main.py help
 ### Scan Interattivo
 - ✅ Input interattivo per Target
 - ✅ Selezione porte (range/singole)
-- ✅ Tipo scan (SYN, Connect, Ping)
+- ✅ Tipo scan (SYN, Connect, Ping, UDP, FIN, NULL, XMAS, Version, OS, Aggressive, Quick, Intense)
 - ✅ Progress bar in tempo reale
 - ✅ Output formattato con colori
 - ✅ Logging integrato
+- ✅ Auto-update Git all'avvio
+
+### WiFi e Aircrack
+- ✅ Lista interfacce wireless
+- ✅ Switch managed/monitor
+- ✅ `airmon-ng`, `airodump-ng`, `aireplay-ng`, `aircrack-ng`
 
 ---
 
@@ -80,13 +86,12 @@ python3 main.py help
 ```bash
 # Installa dipendenze (opzionale, per colori TUI)
 pip install rich
-pip install textual  # per tui.py avanzato
 
 # Verifica
 python3 test.py
 
 # Avvia TUI
-python3 tui_simple.py
+sudo python3 tui_simple.py
 ```
 
 ---
@@ -104,7 +109,11 @@ CDN-FRAMEWORK/
 └── src/
     ├── cli/commands.py
     ├── executor/executor.py
-    ├── modules/nmap/
+    ├── modules/
+    │   ├── update/update_module.py
+    │   ├── nmap/nmap_module.py
+    │   ├── wifi/wifi_module.py
+    │   └── aircrack/aircrack_module.py
     └── config/logger.py
 ```
 
@@ -130,7 +139,7 @@ CDN-FRAMEWORK/
 cd /home/ghost/Scrivania/CDN-FRAMEWORK
 
 # Prova subito
-python3 tui_simple.py
+sudo python3 tui_simple.py
 ```
 
 Tutto è su GitHub e sincronizzato.  
