@@ -11,9 +11,6 @@
 - ✅ Argomenti da terminale
 - ✅ Gestione comando → interpretazione → azione
 
-**File**: `main.py`  
-**Uso**: `python3 main.py <comando> [argomenti]`
-
 ---
 
 ### FASE 2: Command System (CLI) ✅
@@ -21,16 +18,6 @@
 - ✅ Parser CLI centralizzato
 - ✅ Comandi: `scan`, `wifi`, `help`, `version`
 - ✅ Validazione input
-- ✅ Sistema di aiuto
-
-**File**: `src/cli/commands.py`  
-**Comandi disponibili**:
-```
-python3 main.py help        # Aiuto generale
-python3 main.py version     # Versione
-python3 main.py scan ...    # Scan Nmap
-python3 main.py wifi        # Placeholder (Fase 10)
-```
 
 ---
 
@@ -39,15 +26,7 @@ python3 main.py wifi        # Placeholder (Fase 10)
 - ✅ Esecuzione comandi shell
 - ✅ Cattura stdout/stderr
 - ✅ Gestione errori e timeouts
-- ✅ Verifica disponibilità comandi (`which`)
-- ✅ Sistema di logging interno
-
-**File**: `src/executor/executor.py`  
-**Funzionalità**:
-```python
-executor = CommandExecutor()
-stdout, stderr, code = executor.execute("nmap -p 22 localhost")
-```
+- ✅ Verifica disponibilità comandi
 
 ---
 
@@ -56,20 +35,18 @@ stdout, stderr, code = executor.execute("nmap -p 22 localhost")
 - ✅ Integrazione Nmap vera
 - ✅ Costruzione comando dinamica
 - ✅ Supporto tipi di scan (SYN, Connect, Ping)
-- ✅ Gestione porte personalizzate
 - ✅ Output grezzo testuale
 
-**File**: `src/modules/nmap/nmap_module.py`  
-**Uso**:
-```bash
-# Scan base
-python3 main.py scan 192.168.1.1
-
-# Scan avanzato
-python3 main.py scan 192.168.1.1 -type syn -ports 22,80,443 -verbose
-```
-
 ---
+
+### BONUS: TUI Terminale (Text User Interface) ✨ NEW!
+**Stato**: Completato
+- ✅ TUI semplice (`tui_simple.py`) - Menu-based tipo Metasploit
+- ✅ TUI avanzato (`tui.py`) - Full interactive con textual
+- ✅ Interfaccia terminale solo (no GUI esterna)
+- ✅ Colori e formatting con rich
+- ✅ Menu intuitivi
+- ✅ Real-time logging
 
 ## 🧪 Test Suite
 
@@ -89,11 +66,38 @@ python3 test.py
 
 ---
 
+## 🚀 Come Usare
+
+### 📺 TUI (Terminal UI) - CONSIGLIATO
+```bash
+# Versione semplice - Menu interattivo (CONSIGLIATO!)
+python3 tui_simple.py
+
+# Versione avanzata - Full interactive widgets
+python3 tui.py
+```
+
+### 💻 CLI - Command Line
+```bash
+python3 main.py scan 192.168.1.1 -ports 22,80,443
+python3 main.py help
+python3 main.py version
+```
+
+### 🧪 Test
+```bash
+python3 test.py
+```
+
+---
+
 ## 🏗️ Architettura
 
 ```
 CDN-FRAMEWORK
-├── main.py           ← Entry Point (CLI Dispatcher)
+├── main.py           ← Entry Point (CLI)
+├── tui_simple.py     ← TUI Menu-based (CONSIGLIATO!) ⭐
+├── tui.py            ← TUI Full interactive
 ├── test.py           ← Test Suite (6 test)
 ├── README.md         ← Documentazione uso
 ├── MILESTONE.md      ← Report (questo file)
@@ -113,38 +117,45 @@ CDN-FRAMEWORK
 
 ---
 
-## 🚀 Comandi Funzionanti
+## 📺 TUI in Azione
 
-### Help
-```bash
-$ python3 main.py help
-=== CDN-FRAMEWORK ===
-Comandi disponibili:
-  scan: Esegui uno scan Nmap su un target
-  wifi: Modulo WiFi (non ancora implementato)
-  help: Mostra l'aiuto
-  version: Mostra la versione
+### Menu Principale (tui_simple.py)
+```
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║  🔧 CDN-FRAMEWORK - TUI Scanner                    ║
+║                                                           ║
+║  Network Reconnaissance Tool                             ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+
+┌─ MAIN MENU ─────────────────────────────────────────┐
+│                                                     │
+│  1) 🔍 Start Scan          Esegui uno scan Nmap    │
+│  2) 📊 View Last Output    Mostra ultimo risultato │
+│  3) ⚙️  Settings           Configura parametri     │
+│  4) 📝 Help                Mostra aiuto           │
+│  5) ❌ Exit                Esci dal programma      │
+│                                                     │
+└─────────────────────────────────────────────────────┘
 ```
 
-### Version
-```bash
-$ python3 main.py version
-🔧 CDN-FRAMEWORK v1.0.0
-Strumento modulare per network reconnaissance
+### Scan Interattivo
 ```
+┌─ NEW SCAN ───────────────────────────────────────┐
+Target [localhost]: 192.168.1.1
+Ports [22,80,443]: 22,80,443
+Scan Type [syn]: syn
+Verbose output? [y/N]: n
+└─────────────────────────────────────────────────┘
 
-### Scan Nmap (Reale!)
-```bash
-$ python3 main.py scan localhost -ports 22
-🔍 Inizio scan Nmap su localhost
+🔍 Scansione 192.168.1.1...
 
-✅ Scan completato!
+[▰▰▰▰▰████░░░░░░░░░░░░░░░░] 45% Scanning...
 
-Output:
-------------------------------------------------------------
-Starting Nmap 7.99 ( https://nmap.org ) at 2026-04-12 23:14 +0200
-Nmap scan report for localhost (127.0.0.1)
-Host is up (0.000073s latency).
+✅ SCAN COMPLETE - 192.168.1.1
+(Risultati visualizzati)
+```
 
 PORT   STATE SERVICE
 22/tcp open  ssh
@@ -159,12 +170,14 @@ Nmap done: 1 IP address (1 host up) scanned in 0.15 seconds
 
 | Metrica | Valore |
 |---------|--------|
-| Linee di codice | ~450 |
+| Linee di codice | ~900 |
 | Moduli creati | 4 (CLI, Executor, Nmap, Logger) |
+| Interfacce | 3 (CLI, TUI semplice, TUI avanzato) |
 | Test implementati | 6 |
 | Test passati | 6 (100%) |
 | Comandi disponibili | 4 (scan, wifi, help, version) |
 | Tool esterni integrati | 1 (Nmap funzionante) |
+| File Python | 5 (main, tui, tui_simple, test, + moduli src/) |
 
 ---
 
@@ -206,11 +219,14 @@ Nmap done: 1 IP address (1 host up) scanned in 0.15 seconds
 
 1. **Python come linguaggio** È stato richiesto C++ in fase di design, ma Python permette prototipazione veloce e modularità. Facilmente convertibile a C++ tramite wrapper.
 
-2. **Executor centralizzato** Tutti i comandi passano tramite `CommandExecutor` per consistent logging e error handling.
+2. **GUI vs TUI** inizialmente era stata implementata una GUI Tkinter, ma è stata sostituita con une **TUI (Text User Interface)** perchè:
+   - Tool esclusivamente da terminale
+   - Non richiede X11/Wayland
+   - Tipo Metasploit (professionale)
+   - Più leggera e portabile
+   - Ideale per ambienti remoti (SSH)
 
-3. **CLI Parser generico** Supporta aggiunta facile di nuovi comandi via `register_command()`.
-
-4. **Modulo per tool** Ogni tool esterno ha modulo dedicato (`NmapModule`, futuro `AircrackModule`).
+3. **Modulare per tool** Ogni tool esterno ha modulo dedicato (`NmapModule`, futuro `AircrackModule`).
 
 ---
 
@@ -229,8 +245,6 @@ python3 test.py
 python3 main.py scan 192.168.1.1
 ```
 
----
-
 ## 🎯 Conclusione
 
 **Milestone 1 completata con successo!**
@@ -239,6 +253,7 @@ CDN-FRAMEWORK è pronto per:
 - ✅ Esecuzione Nmap reale
 - ✅ Output grezzo testuale
 - ✅ CLI user-friendly
+- ✅ **TUI Professional** tipo Metasploit (NEW!)
 - ✅ Logging interno
 - ✅ Test completo
 
@@ -248,3 +263,6 @@ CDN-FRAMEWORK è pronto per:
 
 **CDN-FRAMEWORK v1.0.0** - Network Reconnaissance Framework  
 Completato: 12 Aprile 2026
+
+**Versione Terminale**: ✅ TUI + CLI (No GUI esterna)
+**Status**: Production Ready per Fase 2+ features
