@@ -1,0 +1,8 @@
+# CDN-FRAMEWORK - Requirements
+# No external dependencies required for core functionality
+# Python built-in modules only: subprocess, logging, tkinter
+
+# Optional for development:
+# pytest>=7.0
+# black>=22.0
+# flake8>=4.0
