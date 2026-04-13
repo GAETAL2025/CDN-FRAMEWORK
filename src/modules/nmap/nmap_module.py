@@ -33,7 +33,20 @@ class NmapModule:
         "stealth": "-sS",
         "aggressive": "-A",
         "quick": "-T4 -F",
-        "intense": "-T4 -A -v"
+        "intense": "-T4 -A -v",
+        "idle": "-sI",
+        "ack": "-sA",
+        "maimon": "-sM",
+        "traceroute": "--traceroute"
+    }
+
+    TIMING_MODES = {
+        "paranoid": "-T0",
+        "sneaky": "-T1",
+        "polite": "-T2",
+        "normal": "-T3",
+        "aggressive": "-T4",
+        "insane": "-T5"
     }
 
     def __init__(self, executor: CommandExecutor):
@@ -104,6 +117,15 @@ class NmapModule:
 
         if ports := params.get("ports"):
             cmd.append(f"-p {ports}")
+
+        # Aggiungi timing
+        timing = params.get("timing", "normal").lower()
+        if timing in self.TIMING_MODES:
+            cmd.append(self.TIMING_MODES[timing])
+
+        # Aggiungi traceroute se richiesto
+        if params.get("traceroute", False):
+            cmd.append("--traceroute")
 
         if params.get("verbose", False):
             cmd.append("-v")

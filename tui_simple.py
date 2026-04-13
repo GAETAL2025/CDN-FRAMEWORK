@@ -195,6 +195,10 @@ class NetHunterCDNTUI:
                 self.quick_wifi_scan()
             else:
                 self.console.print("[bold red]Uso: wifi scan[/bold red]")
+        elif cmd == 'clear':
+            self.clear_screen()
+        elif cmd == 'clean':
+            self.clean_files()
         else:
             self.console.print(f"[bold red]Comando sconosciuto: {cmd}[/bold red]")
 
@@ -208,6 +212,8 @@ class NetHunterCDNTUI:
     version          - Mostra versione
     banner           - Mostra banner
     exit, quit       - Esci dalla console
+    clear            - Pulisce il terminale
+    clean            - Cancella log, cap, csv salvati
 
 [bold green]Module Commands:[/bold green]
     use <module>     - Carica un modulo
@@ -220,6 +226,9 @@ class NetHunterCDNTUI:
 [bold green]Quick Commands:[/bold green]
     scan <target>    - Scan Nmap veloce
     wifi scan        - Scan reti WiFi
+
+[bold green]Tipi Nmap disponibili:[/bold green]
+    connect, syn, fin, null, xmas, udp, idle, ack, maimon, fast, aggressive
         """
         self.console.print(Panel(help_text, title="[bold red]NetHunterCDN Help[/bold red]", border_style="red"))
 
@@ -247,8 +256,10 @@ class NetHunterCDNTUI:
             self.current_module = "nmap/scan"
             self.module_options = {
                 'target': {'value': None, 'required': True, 'description': 'Target IP o hostname'},
-                'type': {'value': 'connect', 'required': False, 'description': 'Tipo scan (connect, syn, fast)'},
-                'ports': {'value': None, 'required': False, 'description': 'Porte specifiche (es. 22,80,443)'}
+                'type': {'value': 'syn', 'required': False, 'description': 'Tipo scan: connect, syn, fin, null, xmas, udp, idle, ack, maimon, fast, aggressive, traceroute'},
+                'ports': {'value': None, 'required': False, 'description': 'Porte specifiche (es. 22,80,443)'},
+                'timing': {'value': 'normal', 'required': False, 'description': 'Timing: paranoid, sneaky, polite, normal, aggressive, insane'},
+                'traceroute': {'value': 'no', 'required': False, 'description': 'Abilita traceroute: yes, no'}
             }
             self.console.print(f"[bold green]Modulo caricato: {module_name}[/bold green]")
         elif module_name == "wifi/scan":
@@ -344,16 +355,22 @@ class NetHunterCDNTUI:
             self.run_wifi_crack()
 
     def run_nmap_scan(self):
-        """Esegue scan Nmap."""
+        """Esegue scan Nmap con tutti i tipi di scansione."""
         target = self.module_options['target']['value']
         scan_type = self.module_options['type']['value']
         ports = self.module_options['ports']['value']
+        timing = self.module_options['timing']['value']
+        traceroute = self.module_options['traceroute']['value']
 
         params = {}
         if scan_type:
             params['type'] = scan_type
         if ports:
             params['ports'] = ports
+        if timing:
+            params['timing'] = timing
+        if traceroute and traceroute.lower() == 'yes':
+            params['traceroute'] = True
 
         with self.console.status("[bold green]Scanning...[/bold green]", spinner="dots"):
             result = self.nmap.scan(target, params)
@@ -466,6 +483,52 @@ class NetHunterCDNTUI:
             self.console.print(f"[bold green]Reti trovate: {len(networks)}[/bold green]")
         else:
             self.console.print(f"[bold red]Scan fallito: {result['error']}[/bold red]")
+
+    def clear_screen(self):
+        """Pulisce il terminale."""
+        os.system('clear' if os.name == 'posix' else 'cls')
+        self.console.print("[bold green]Terminale pulito[/bold green]")
+
+    def clean_files(self):
+        """Cancella i file di log, capture e csv salvati."""
+        import glob
+        
+        file_types = ['*.log', '*.cap', '*.pcap', '*.csv']
+        deleted_count = 0
+        
+        self.console.print("[bold yellow]🗑️  Ricerca file da cancellare...[/bold yellow]")
+        
+        for pattern in file_types:
+            files = glob.glob(os.path.join(os.getcwd(), pattern))
+            for file in files:
+                try:
+                    os.remove(file)
+                    deleted_count += 1
+                    self.console.print(f"[bold red]❌ Cancellato:[/bold red] {os.path.basename(file)}")
+                except Exception as e:
+                    self.console.print(f"[bold yellow]⚠️  Errore cancellazione {os.path.basename(file)}: {e}[/bold yellow]")
+        
+        # Cancella anche i file di log degli handler
+        log_dirs = [
+            os.path.expanduser('~/.nethuntercdn/logs'),
+            os.path.join(os.getcwd(), 'logs'),
+            os.path.join(os.getcwd(), '.logs')
+        ]
+        
+        for log_dir in log_dirs:
+            if os.path.exists(log_dir):
+                try:
+                    for file in glob.glob(os.path.join(log_dir, '*.log')):
+                        os.remove(file)
+                        deleted_count += 1
+                        self.console.print(f"[bold red]❌ Cancellato:[/bold red] {os.path.basename(file)}")
+                except Exception as e:
+                    self.console.print(f"[bold yellow]⚠️  Errore in {log_dir}: {e}[/bold yellow]")
+        
+        if deleted_count > 0:
+            self.console.print(f"\n[bold green]✅ Pulizia completata! {deleted_count} file cancellati.[/bold green]")
+        else:
+            self.console.print("[bold green]✅ Nessun file da cancellare.[/bold green]")
 
 
 def main():

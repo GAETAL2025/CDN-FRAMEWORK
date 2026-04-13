@@ -54,6 +54,8 @@ nhcdn > exit
 - `help` - Mostra tutti i comandi disponibili
 - `version` - Versione del tool
 - `banner` - Ristampa il banner
+- `clear` - Pulisce il terminale
+- `clean` - Cancella log, cap, csv salvati
 - `use <module>` - Carica un modulo
 - `show modules` - Lista moduli disponibili
 - `show options` - Opzioni del modulo corrente
@@ -63,6 +65,11 @@ nhcdn > exit
 - `scan <target>` - Scan Nmap veloce
 - `wifi scan` - Scan reti WiFi
 - `exit` - Esci dalla console
+
+### Tipi Nmap Disponibili
+- **Scan Types:** connect, syn, fin, null, xmas, udp, idle, ack, maimon, fast, aggressive, traceroute
+- **Timing:** paranoid, sneaky, polite, normal, aggressive, insane
+- **Opzioni:** ports (porte specifiche), traceroute (yes/no)
 
 ### Moduli Disponibili
 - `nmap/scan` - Scanner Nmap completo con XML parsing
@@ -95,6 +102,15 @@ nhcdn (wifi/capture) > set interface wlan0mon
 nhcdn (wifi/capture) > set bssid 00:11:22:33:44:55
 nhcdn (wifi/capture) > set channel 6
 nhcdn (wifi/capture) > run
+```
+
+### Utility Commands
+```
+nhcdn > clear          # Pulisce il terminale
+nhcdn > clean          # Cancella tutti i file log, cap, csv
+nhcdn > version        # Mostra versione
+nhcdn > banner         # Ristampa banner
+nhcdn > help           # Mostra aiuto
 ```
 
 ### Quick Commands

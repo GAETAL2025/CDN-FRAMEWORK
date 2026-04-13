@@ -96,6 +96,10 @@ sudo python3 tui_simple.py
 
 **Comandi principali**:
 - `help` - Mostra aiuto comandi
+- `version` - Versione del tool
+- `banner` - Ristampa il banner
+- `clear` - Pulisce il terminale
+- `clean` - Cancella log, cap, csv salvati
 - `use <module>` - Carica modulo (nmap/scan, wifi/scan, wifi/capture, wifi/crack)
 - `show modules` - Lista moduli disponibili
 - `show options` - Opzioni modulo corrente
@@ -106,13 +110,23 @@ sudo python3 tui_simple.py
 - `wifi scan` - Scan reti WiFi
 - `exit` - Esci dalla console
 
+**Tipi Nmap disponibili**:
+- **Scan Types:** connect, syn, fin, null, xmas, udp, idle, ack, maimon, fast, aggressive, traceroute
+- **Timing:** paranoid, sneaky, polite, normal, aggressive, insane
+- **Opzioni:** ports (porte specifiche), traceroute (yes/no)
+
 **Esempio sessione**:
 ```
 nhcdn > use nmap/scan
 nhcdn (nmap/scan) > show options
 nhcdn (nmap/scan) > set target 192.168.1.1
+nhcdn (nmap/scan) > set type aggressive
+nhcdn (nmap/scan) > set timing insane
+nhcdn (nmap/scan) > set traceroute yes
 nhcdn (nmap/scan) > run
 nhcdn (nmap/scan) > back
+nhcdn > clear
+nhcdn > clean
 nhcdn > exit
 ```
 - `6` - Help
