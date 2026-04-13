@@ -14,20 +14,39 @@
 - ✅ **Logging completo** - Debug e monitoring
 - ✅ **Architettura modulare** - Facile aggiungere nuovi tool
 
-## 📋 Milestone Completata (Fase 1-4)
+## 📋 Milestone Completata (Fase 1-6)
 
 - ✅ **FASE 1**: Entry point + input da terminale
-- ✅ **FASE 2**: Command system (CLI) - scan, wifi, aircrack, airomon, airodump, aireplay, help
-- ✅ **FASE 3**: Executor - esecuzione comandi shell
-- ✅ **FASE 4**: Modulo Nmap reale + output grezzo
-- ✅ **FASE 5**: Modulo WiFi e modalità monitor/managed
-- ✅ **BONUS**: Auto-update Git e TUI rosso/nero
+- ✅ **FASE 2**: Command system (CLI) - scan, wifi, help
+- ✅ **FASE 3**: Executor robusto con timeout e gestione errori
+- ✅ **FASE 4**: Modulo Nmap con XML parsing e output strutturato
+- ✅ **FASE 5**: WiFi scan con airodump-ng e CSV parsing
+- ✅ **FASE 6**: WiFi capture handshake con airodump-ng + aireplay-ng
+- ✅ **FASE 7**: WiFi cracking WPA/WPA2 con aircrack-ng
+- ✅ **BONUS**: Architettura modulare, output standardizzato, validazione input
 
-### In sviluppo (Prossime fasi):
-- 📋 **FASE 5**: Parsing XML
-- 📋 **FASE 6**: Architettura modulare avanzata
-- 📋 **FASE 7**: Logging completo
-- 📋 **FASE 8**: Controllo dipendenze
+## 🚀 Utilizzo Rapido
+
+### Scan Nmap
+```bash
+python3 main.py scan 192.168.1.1
+python3 main.py scan example.com -type fast
+```
+
+### WiFi Operations
+```bash
+# Lista interfacce
+python3 main.py wifi list
+
+# Scan reti WiFi
+python3 main.py wifi scan -interface wlan0 -duration 10
+
+# Cattura handshake
+python3 main.py wifi-capture 00:11:22:33:44:55 -channel 6 -interface wlan0mon
+
+# Cracca password
+python3 main.py wifi-crack capture.cap 00:11:22:33:44:55 -wordlist rockyou.txt
+```
 - 📋 **FASE 9**: Test esteso
 - 📋 **FASE 10**: Modulo WiFi (Aircrack-ng)
 
