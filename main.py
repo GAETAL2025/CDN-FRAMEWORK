@@ -47,59 +47,8 @@ class CDNFramework:
             handler=self.handle_scan
         ))
 
-        self.cli.register_command(CommandInfo(
-            name="wifi",
-            description="Gestione interfacce WiFi e modalità monitor/managed",
-            args_required=["action"],
-            args_optional=["interface", "mode", "target", "count"],
-            handler=self.handle_wifi
-        ))
-
-        self.cli.register_command(CommandInfo(
-            name="airmon",
-            description="Avvia o arresta la modalità monitor con airmon-ng",
-            args_required=["action", "interface"],
-            args_optional=[],
-            handler=self.handle_airmon
-        ))
-
-        self.cli.register_command(CommandInfo(
-            name="airodump",
-            description="Esegui airodump-ng su un'interfaccia wireless",
-            args_required=["interface"],
-            args_optional=["output", "extra"],
-            handler=self.handle_airodump
-        ))
-
-        self.cli.register_command(CommandInfo(
-            name="aireplay",
-            description="Esegui aireplay-ng per attacchi WiFi",
-            args_required=["attack", "interface"],
-            args_optional=["target", "count", "extra"],
-            handler=self.handle_aireplay
-        ))
-
-        self.cli.register_command(CommandInfo(
-            name="aircrack",
-            description="Esegui aircrack-ng su un file di cattura",
-            args_required=["capture"],
-            args_optional=["wordlist", "extra"],
-            handler=self.handle_aircrack
-        ))
-
-        self.cli.register_command(CommandInfo(
-            name="help",
-            description="Mostra l'aiuto",
-            args_required=[],
-            handler=self.handle_help
-        ))
-
-        self.cli.register_command(CommandInfo(
-            name="version",
-            description="Mostra la versione",
-            args_required=[],
-            handler=self.handle_version
-        ))
+        # For v0.1, only scan command is active
+        # Other commands commented out to focus on core functionality
 
     def ensure_root(self):
         """Verifica se lo strumento è avviato con sudo/root."""
@@ -257,8 +206,8 @@ class CDNFramework:
         """
         Esegui il framework con gli argomenti forniti
         """
-        self.ensure_root()
-        self.auto_update()
+        # self.ensure_root()
+        # self.auto_update()
 
         if not args:
             print(self.cli.get_help())

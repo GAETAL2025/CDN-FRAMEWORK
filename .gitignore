@@ -49,6 +49,9 @@ virtualenv/
 .DS_Store
 Thumbs.db
 
+# Temporary files
+*.csv
+
 # Logs
 logs/
 *.log

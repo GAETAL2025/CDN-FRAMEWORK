@@ -19,14 +19,14 @@ class CommandExecutor:
         self.last_output = None
         self.last_error = None
     
-    def execute(self, command: str, shell: bool = True, timeout: Optional[int] = None) -> Tuple[str, str, int]:
+    def execute(self, command: str, shell: bool = True, timeout: Optional[int] = 300) -> Tuple[str, str, int]:
         """
         Esegue un comando shell e cattura output
         
         Args:
             command: Comando da eseguire
             shell: Se True, esegui tramite shell
-            timeout: Timeout in secondi (None = infinito)
+            timeout: Timeout in secondi (default 300)
         
         Returns:
             Tupla (stdout, stderr, return_code)
