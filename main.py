@@ -47,7 +47,14 @@ class CDNFramework:
             handler=self.handle_scan
         ))
 
-        # For v0.1, only scan command is active
+        self.cli.register_command(CommandInfo(
+            name="help",
+            description="Mostra l'aiuto",
+            args_required=[],
+            handler=self.handle_help
+        ))
+
+        # For v0.1, only scan and help commands are active
         # Other commands commented out to focus on core functionality
 
     def ensure_root(self):
@@ -73,6 +80,13 @@ class CDNFramework:
         target = params.get('target')
         if not target:
             print("❌ Target non specificato!")
+            return 1
+
+        # Validate target
+        import re
+        import socket
+        if not (re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', target) or re.match(r'^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', target)):
+            print("❌ Target non valido! Usa un IP o hostname valido.")
             return 1
 
         print(f"\n🔍 Inizio scan Nmap su {target}")
