@@ -84,7 +84,6 @@ class CDNFramework:
 
         # Validate target
         import re
-        import socket
         if not (re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', target) or re.match(r'^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', target)):
             print("❌ Target non valido! Usa un IP o hostname valido.")
             return 1
@@ -93,11 +92,17 @@ class CDNFramework:
         result = self.nmap.scan(target, params)
 
         if result['success']:
+            data = result['data']
             print("\n✅ Scan completato!\n")
-            print("Output:")
-            print("-" * 60)
-            print(result['output'])
-            print("-" * 60)
+            print(f"Host: {target}")
+            print(f"Stato: {data['status']}")
+            if data['ports']:
+                print("Porte aperte:")
+                for port in data['ports']:
+                    if port['state'] == 'open':
+                        print(f"  {port['port']}/tcp - {port['service']}")
+            else:
+                print("Nessuna porta aperta rilevata.")
             return 0
 
         print("\n❌ Scan fallito!")
