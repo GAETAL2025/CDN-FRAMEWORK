@@ -16,6 +16,7 @@ from cli.commands import CLIParser, CommandInfo
 from executor.executor import CommandExecutor
 from modules.nmap.nmap_module import NmapModule
 from modules.wifi.wifi_module import WifiModule
+from modules.wifi.scan import WifiScanModule
 from modules.aircrack.aircrack_module import AircrackModule
 from modules.update.update_module import UpdateModule
 
@@ -33,6 +34,7 @@ class CDNFramework:
         self.update = UpdateModule(self.executor)
         self.nmap = NmapModule(self.executor)
         self.wifi = WifiModule(self.executor)
+        self.wifi_scan = WifiScanModule(self.executor)
         self.air = AircrackModule(self.executor)
 
         self._register_commands()
@@ -54,7 +56,15 @@ class CDNFramework:
             handler=self.handle_help
         ))
 
-        # For v0.1, only scan and help commands are active
+        self.cli.register_command(CommandInfo(
+            name="wifi",
+            description="Gestione interfacce WiFi e scan reti",
+            args_required=["action"],
+            args_optional=["interface", "mode", "duration"],
+            handler=self.handle_wifi
+        ))
+
+        # For v0.1, only scan, help, and wifi commands are active
         # Other commands commented out to focus on core functionality
 
     def ensure_root(self):
@@ -113,14 +123,33 @@ class CDNFramework:
         """Handler per comando 'wifi'"""
         action = params.get('action', '').lower()
         if action == 'list':
-            interfaces = self.wifi.get_interfaces_summary()
+            interfaces = self.wifi.list_interfaces()
             if not interfaces:
                 print("⚠️  Nessuna interfaccia WiFi trovata.")
                 return 0
             print("\n🔌 Interfacce WiFi trovate:\n")
             for iface in interfaces:
-                print(f"- {iface['name']} | type={iface.get('type')} | state={iface.get('state')}")
+                print(f"- {iface['name']} | type={iface.get('type')}")
             return 0
+
+        if action == 'scan':
+            interface = params.get('interface')
+            duration = int(params.get('duration', 10))
+            if not interface:
+                print("❌ Specifica l'interfaccia con -interface <nome>.")
+                return 1
+            print(f"\n🔍 Inizio scan WiFi su {interface} per {duration} secondi")
+            result = self.wifi_scan.scan(interface, duration)
+            if result['success']:
+                networks = result['data']['networks']
+                print(f"\n✅ Scan completato! Trovate {len(networks)} reti:\n")
+                for net in networks[:10]:  # Mostra max 10
+                    print(f"ESSID: {net['essid']} | BSSID: {net['bssid']} | Canale: {net['channel']} | Sicurezza: {net['privacy']}")
+                if len(networks) > 10:
+                    print(f"... e altre {len(networks)-10} reti")
+                return 0
+            print(f"❌ Scan fallito: {result['error']}")
+            return 1
 
         if action == 'status':
             interface = params.get('interface')
@@ -145,7 +174,7 @@ class CDNFramework:
             print(f"❌ Fallito: {result['error']}")
             return 1
 
-        print("❌ Azione WiFi non riconosciuta. Usa list, status o mode.")
+        print("❌ Azione WiFi non riconosciuta. Usa list, scan, status o mode.")
         return 1
 
     def handle_airmon(self, params: dict) -> int:
