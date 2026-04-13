@@ -1,6 +1,6 @@
-# 🔧 NetRecon
+# 🔧 NetHunterCDN
 
-**NetRecon** è uno strumento modulare per network reconnaissance con interfaccia **CLI** e **TUI (Text User Interface)** professionale nel terminale, tipo Metasploit. Esegue tool come Nmap e organizza i risultati in modo strutturato.
+**NetHunterCDN** è uno strumento modulare per network reconnaissance con interfaccia **CLI** e **TUI (Text User Interface)** professionale nel terminale, tipo Metasploit. Esegue tool come Nmap e organizza i risultati in modo strutturato.
 
 ## 🎯 Caratteristiche Principali
 
