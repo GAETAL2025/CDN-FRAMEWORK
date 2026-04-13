@@ -17,6 +17,8 @@ from executor.executor import CommandExecutor
 from modules.nmap.nmap_module import NmapModule
 from modules.wifi.wifi_module import WifiModule
 from modules.wifi.scan import WifiScanModule
+from modules.wifi.capture import WifiCaptureModule
+from modules.wifi.crack import WifiCrackModule
 from modules.aircrack.aircrack_module import AircrackModule
 from modules.update.update_module import UpdateModule
 
@@ -35,6 +37,8 @@ class NetRecon:
         self.nmap = NmapModule(self.executor)
         self.wifi = WifiModule(self.executor)
         self.wifi_scan = WifiScanModule(self.executor)
+        self.wifi_capture = WifiCaptureModule(self.executor)
+        self.wifi_crack = WifiCrackModule(self.executor)
         self.air = AircrackModule(self.executor)
 
         self._register_commands()
@@ -62,6 +66,22 @@ class NetRecon:
             args_required=["action"],
             args_optional=["interface", "mode", "duration"],
             handler=self.handle_wifi
+        ))
+
+        self.cli.register_command(CommandInfo(
+            name="wifi-capture",
+            description="Cattura handshake WiFi da una rete specifica",
+            args_required=["bssid", "channel"],
+            args_optional=["interface", "duration"],
+            handler=self.handle_wifi_capture
+        ))
+
+        self.cli.register_command(CommandInfo(
+            name="wifi-crack",
+            description="Cracca WPA/WPA2 da file di cattura",
+            args_required=["cap_file", "bssid"],
+            args_optional=["wordlist"],
+            handler=self.handle_wifi_crack
         ))
 
         # For v0.1, only scan, help, and wifi commands are active
@@ -176,6 +196,55 @@ class NetRecon:
 
         print("❌ Azione WiFi non riconosciuta. Usa list, scan, status o mode.")
         return 1
+
+    def handle_wifi_capture(self, params: dict) -> int:
+        """Handler per comando 'wifi-capture'"""
+        bssid = params.get('bssid')
+        channel = int(params.get('channel', 0))
+        interface = params.get('interface', 'wlan0mon')
+        duration = int(params.get('duration', 60))
+
+        if not bssid or channel == 0:
+            print("❌ Specifica BSSID e canale. Es: wifi-capture <BSSID> -channel <num>")
+            return 1
+
+        print(f"🎯 Cattura handshake per {bssid} su canale {channel}")
+        result = self.wifi_capture.capture_handshake(interface, bssid, channel, duration)
+
+        if result['success']:
+            data = result['data']
+            print("✅ Cattura completata!")
+            print(f"📁 File: {data['cap_file']}")
+            if data['handshake_captured']:
+                print("🔓 Handshake catturato! Pronto per cracking.")
+            else:
+                print("⚠️ Handshake non rilevato. Riprova con più tempo o più deauth.")
+            return 0
+        else:
+            print(f"❌ Cattura fallita: {result['error']}")
+            return 1
+
+    def handle_wifi_crack(self, params: dict) -> int:
+        """Handler per comando 'wifi-crack'"""
+        cap_file = params.get('cap_file')
+        bssid = params.get('bssid')
+        wordlist = params.get('wordlist', '/usr/share/wordlists/rockyou.txt')
+
+        if not cap_file or not bssid:
+            print("❌ Specifica file CAP e BSSID. Es: wifi-crack <file.cap> <BSSID> -wordlist <file>")
+            return 1
+
+        print(f"🔓 Cracking {bssid} con wordlist {wordlist}")
+        result = self.wifi_crack.crack_wpa(cap_file, bssid, wordlist)
+
+        if result['success']:
+            data = result['data']
+            print("🎉 CHIAVE TROVATA!")
+            print(f"🔑 Password: {data['key']}")
+            return 0
+        else:
+            print(f"❌ Cracking fallito: {result['error']}")
+            return 1
 
     def handle_airmon(self, params: dict) -> int:
         """Handler per comando 'airmon'"""
