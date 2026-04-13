@@ -1,53 +1,149 @@
-# 🎉 CDN-FRAMEWORK v1.1.0 - TIMELINE COMPLETE!
+# 🎉 NetHunterCDN v1.1.0 - TUI MSF-LIKE COMPLETE!
 
-## 📺 Interfaccia TUI (Terminal UI) - Solo Terminale
+## 📺 Interfaccia TUI (Terminal UI) - Tipo Metasploit
 
-Esattamente quello che hai chiesto! Una **TUI professionale tipo Metasploit** fatta completamente di terminale.
+Esattamente quello che hai chiesto! Una **TUI professionale identica a Metasploit** fatta completamente di terminale con comandi testuali.
 
 ### ⭐ START IMMEDIATO
 
-**Opzione 1: TUI Semplice (CONSIGLIATO - Menu-based)**
 ```bash
 sudo python3 tui_simple.py
 ```
-Menu interattivo rosso/nero, prompt intuitivi, output formattato e comandi WiFi/Aircrack.
 
-**Opzione 2: TUI Avanzato (Full Interactive)**
-```bash
-sudo python3 tui.py
-```
-Widgets avanzati, layout customizzato - per utenti esperti.
-
-**Opzione 3: CLI (Command Line)**
-```bash
-sudo python3 main.py scan 192.168.1.1 -ports 22,80,443
-sudo python3 main.py help
-```
+**Banner professionale** rosso/nero, **prompt MSF-like** (`nhcdn >`), **comandi testuali** (`use`, `show`, `set`, `run`), **auto-update Git**.
 
 ---
 
 ## 🐙 GitHub Repository
 
-**Live su**: https://github.com/GAETAL2025/CDN-FRAMEWORK
+**Live su**: https://github.com/GAETAL2025/NetHunterCDN
 
-**5 Commit spinti:**
-1. ✅ Initial GUI + Framework setup
-2. ✅ Added helper scripts
-3. ✅ Added setup summary
-4. ✅ **(NEW)** Replaced GUI with TUI
-5. ✅ **(NEW)** Updated docs for TUI
+**Repository rinominato** da CDN-FRAMEWORK a NetHunterCDN per branding professionale.
 
 ---
 
-## 🎯 TUI Features
+## 🎯 TUI Features - MSF Style
 
-### Menu Principale
+### Banner di Avvio
 ```
-1) 🔍 Start Scan          - Esegui scan interattivo
-2) 📊 View Last Output    - Ultimi risultati
-3) ⚙️  Settings           - Configurazione
-4) 📝 Help                - Help completo
-5) ❌ Exit                - Esci
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                    NetHunterCDN v1.1.0                                   ║
+║                                                                              ║
+║                Network Reconnaissance & WiFi Security Framework                ║
+║                                                                              ║
+║        Author: GAETAL2025    Platform: Linux    Arch: x86_64 ║
+║                                                                              ║
+║        Type 'help' for commands, 'use <module>' to load modules         ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+```
+
+### Prompt Interattivo
+```
+nhcdn > help
+nhcdn > use nmap/scan
+nhcdn (nmap/scan) > show options
+nhcdn (nmap/scan) > set target 192.168.1.1
+nhcdn (nmap/scan) > run
+nhcdn (nmap/scan) > back
+nhcdn > exit
+```
+
+### Comandi Principali
+- `help` - Mostra tutti i comandi disponibili
+- `version` - Versione del tool
+- `banner` - Ristampa il banner
+- `use <module>` - Carica un modulo
+- `show modules` - Lista moduli disponibili
+- `show options` - Opzioni del modulo corrente
+- `set <option> <value>` - Imposta un parametro
+- `run` / `exploit` - Esegue il modulo
+- `back` - Torna al contesto principale
+- `scan <target>` - Scan Nmap veloce
+- `wifi scan` - Scan reti WiFi
+- `exit` - Esci dalla console
+
+### Moduli Disponibili
+- `nmap/scan` - Scanner Nmap completo con XML parsing
+- `wifi/scan` - Scanner reti WiFi con airodump-ng
+- `wifi/capture` - Cattura handshake WiFi
+- `wifi/crack` - Cracking WPA/WPA2 con aircrack-ng
+
+---
+
+## 🚀 Esempi di Sessione
+
+### Scan Nmap
+```
+nhcdn > use nmap/scan
+nhcdn (nmap/scan) > show options
+nhcdn (nmap/scan) > set target 192.168.1.1
+nhcdn (nmap/scan) > set type connect
+nhcdn (nmap/scan) > run
+```
+
+### WiFi Operations
+```
+nhcdn > use wifi/scan
+nhcdn (wifi/scan) > show options
+nhcdn (wifi/scan) > set interface wlan0
+nhcdn (wifi/scan) > run
+
+nhcdn > use wifi/capture
+nhcdn (wifi/capture) > set interface wlan0mon
+nhcdn (wifi/capture) > set bssid 00:11:22:33:44:55
+nhcdn (wifi/capture) > set channel 6
+nhcdn (wifi/capture) > run
+```
+
+### Quick Commands
+```
+nhcdn > scan 192.168.1.1
+nhcdn > wifi scan
+```
+
+---
+
+## 🔧 Setup & Requirements
+
+### Dipendenze Sistema
+```bash
+# Nmap per scanning
+sudo apt install nmap
+
+# Aircrack-ng per WiFi
+sudo apt install aircrack-ng
+
+# Python dependencies
+pip install -r requirements.txt
+```
+
+### Avvio
+```bash
+cd NetHunterCDN
+sudo python3 tui_simple.py
+```
+
+### Verifica Funzionamento
+```bash
+python3 test.py
+```
+
+---
+
+## 📋 Milestone Raggiunte
+
+- ✅ **FASE 1-7**: Framework completo CLI
+- ✅ **FASE 8**: Architettura modulare
+- ✅ **FASE 9**: TUI MSF-like completa
+- ✅ **FASE 10**: Documentazione e test
+
+---
+
+## 🎊 SUCCESSO!
+
+**NetHunterCDN** è ora un tool professionale con interfaccia **identica a Metasploit**! 🚀
 ```
 
 ### Scan Interattivo

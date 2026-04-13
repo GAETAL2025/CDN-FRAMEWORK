@@ -14,7 +14,7 @@
 - ✅ **Logging completo** - Debug e monitoring
 - ✅ **Architettura modulare** - Facile aggiungere nuovi tool
 
-## 📋 Milestone Completata (Fase 1-6)
+## 📋 Milestone Completata (Fase 1-10)
 
 - ✅ **FASE 1**: Entry point + input da terminale
 - ✅ **FASE 2**: Command system (CLI) - scan, wifi, help
@@ -23,7 +23,9 @@
 - ✅ **FASE 5**: WiFi scan con airodump-ng e CSV parsing
 - ✅ **FASE 6**: WiFi capture handshake con airodump-ng + aireplay-ng
 - ✅ **FASE 7**: WiFi cracking WPA/WPA2 con aircrack-ng
-- ✅ **BONUS**: Architettura modulare, output standardizzato, validazione input
+- ✅ **FASE 8**: Architettura modulare, output standardizzato, validazione input
+- ✅ **FASE 9**: TUI MSF-like completa (rosso/nero, comandi testuali, banner ASCII)
+- ✅ **FASE 10**: Test esteso e documentazione aggiornata
 
 ## 🚀 Utilizzo Rapido
 
@@ -70,34 +72,49 @@ pip install -r requirements.txt
 # Test di verifica
 python3 test.py
 
-# Avvia TUI
+# Avvia TUI (richiede sudo)
 sudo python3 tui_simple.py
 ```
 
 ## 📖 Utilizzo
 
-### � TUI (Terminal UI - CONSIGLIATO)
+### 🖥️ TUI (Terminal UI - CONSIGLIATO)
 
-Interfaccia interattiva professionale direttamente nel terminale, tipo Metasploit.
+Interfaccia interattiva professionale direttamente nel terminale, **tipo Metasploit** con comandi testuali.
 
 ```bash
-python3 tui_simple.py
+sudo python3 tui_simple.py
 ```
 
 **Features**:
-- 📋 Menu interattivo
-- 🎨 Colori e formatting con rich
-- 🔍 Prompt intuitivi
-- 📊 Output formattato
-- ⚙️  Settings
-- 📝 Help integrato
+- 🎯 **Prompt MSF-like**: `nhcdn >` con contesto moduli
+- 🔴 **Grafica rosso/nero** - Tema professionale
+- 📋 **Comandi testuali** - `use`, `show`, `set`, `run`
+- 🎨 **Banner ASCII art** - Versione, autore, piattaforma
+- ⚡ **Auto-update** - Controllo aggiornamenti Git
+- 🔒 **Root check** - Verifica privilegi sudo
 
-**Menu disponibili**:
-- `1` - Scan Nmap
-- `2` - Aircrack Suite
-- `3` - WiFi Interfaces
-- `4` - View Last Output
-- `5` - Settings
+**Comandi principali**:
+- `help` - Mostra aiuto comandi
+- `use <module>` - Carica modulo (nmap/scan, wifi/scan, wifi/capture, wifi/crack)
+- `show modules` - Lista moduli disponibili
+- `show options` - Opzioni modulo corrente
+- `set <option> <value>` - Imposta parametro
+- `run` - Esegue modulo caricato
+- `back` - Torna al contesto principale
+- `scan <target>` - Scan Nmap veloce
+- `wifi scan` - Scan reti WiFi
+- `exit` - Esci dalla console
+
+**Esempio sessione**:
+```
+nhcdn > use nmap/scan
+nhcdn (nmap/scan) > show options
+nhcdn (nmap/scan) > set target 192.168.1.1
+nhcdn (nmap/scan) > run
+nhcdn (nmap/scan) > back
+nhcdn > exit
+```
 - `6` - Help
 - `7` - Exit
 
