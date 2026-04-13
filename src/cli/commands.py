@@ -104,7 +104,7 @@ Argomenti obbligatori: {', '.join(cmd.args_required) if cmd.args_required else '
 Argomenti opzionali: {', '.join(cmd.args_optional) if cmd.args_optional else 'Nessuno'}
 """
         
-        help_text = "\n=== CDN-FRAMEWORK ===\nComandi disponibili:\n"
+        help_text = "\n=== NetRecon ===\nComandi disponibili:\n"
         for cmd_name, cmd_info in self.commands.items():
             help_text += f"  {cmd_name}: {cmd_info.description}\n"
         return help_text

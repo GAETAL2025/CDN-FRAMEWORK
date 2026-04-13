@@ -21,11 +21,11 @@ from modules.aircrack.aircrack_module import AircrackModule
 from modules.update.update_module import UpdateModule
 
 # Setup logging
-logger = setup_logger('CDN-FRAMEWORK', log_level='INFO')
+logger = setup_logger('NetRecon', log_level='INFO')
 VERSION = "1.1.0"
 
 
-class CDNFramework:
+class NetRecon:
     """Framework principale"""
 
     def __init__(self):
@@ -246,7 +246,7 @@ class CDNFramework:
 
     def handle_version(self, params: dict) -> int:
         """Handler per comando 'version'"""
-        print(f"🔧 CDN-FRAMEWORK v{VERSION}")
+        print(f"NetRecon v{VERSION}")
         print("Strumento modulare per network reconnaissance")
         return 0
 
@@ -276,7 +276,7 @@ class CDNFramework:
 
 def main():
     """Punto di ingresso principale"""
-    framework = CDNFramework()
+    framework = NetRecon()
     args = sys.argv[1:]
     exit_code = framework.run(args)
     sys.exit(exit_code)
